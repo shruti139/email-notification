@@ -85,9 +85,10 @@ function onError(error) {
 
 async function onListening() {
   var addr = server.address();
-await mongoose.connect(process.env.MONGO_URI).then(() => console.log("Database connected")).catch((err) => console.log(err));
+  await mongoose.connect(process.env.MONGO_URI).then(() => console.log("Database connected")).catch((err) => console.log(err));
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
+  console.log('Listening on ' + port);
   debug('Listening on ' + bind);
 }
