@@ -8,56 +8,105 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    
+
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Rajdhani:500,700&display=swap" rel="stylesheet">
 
-
     <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/form.css" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Email Sender</title>
     <script>
         // let data ={}
-        $(document).ready(function () {
-            $(".select2").select2();
-            // $(".select1").select2();
-        });
+        // $(document).ready(function () {
+        //     $(".select2").select2();
+        //     // $(".select1").select2();
+        // });
+        // function submitForm(e) {
+        //     e.preventDefault()
+        //     const formData = {
+        //         apiURL: $('input[name="apiURL"]').val(),
+        //         method: document.getElementById("methods")?.value,
+        //         body: $('textarea[name="body"]').val() || "{}",
+        //         header: $('textarea[name="header"]').val() || "{}",
+        //         statusCode: $('select[name="statusCode"]').val(),
+        //         time: $('input[name="time"]').val(),
+        //         email: $('input[name="email"]').val()
+        //     };
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/api/createCronJob",
+        //         data: JSON.stringify(formData),
+        //         contentType: "application/json",
+        //         success: function (response) {
+        //             if (response?.isSuccess) {
+        //                 const tableBody = document.querySelector('tbody');
+
+        //                 // Create a new row
+        //                 const newRow = document.createElement('tr');
+
+
+        //                 newRow.innerHTML = `<td>${response?.data?.apiURL}</td>
+        //                 <td>${response?.data?.method}</td>
+        //                 <td>${response?.data?.time}</td>
+        //                 <td>${response?.data?.email}</td>
+        //                 <td>${response?.data?.statusCode}</td>
+        //                 <td>${response?.data?.isResolved}</td>`;
+
+        //                 // Append the row to the table body
+        //                 tableBody.appendChild(newRow);
+        //                 document.getElementById("myForm").reset();
+        //                 changeTab("table")
+        //                 alert('Form submitted successfully!');
+        //             } else {
+        //                 alert(response?.error + '. ' + response?.message);
+
+        //             }
+        //         },
+        //         error: function (xhr, status, error) {
+        //             alert('Error: ' + xhr.responseText);
+        //         }
+        //     });
+        //     // document.getElementById("myForm").submit();
+        // }
+
+        // function changeTab(tab) {
+        //     const tableTab = document.querySelector(".tableTab")
+        //     const homeTab = document.querySelector(".homeTab")
+        //     if (tab == "home") {
+        //         tableTab.classList.remove("active")
+        //         homeTab.classList.add("active")
+        //         document.getElementById("api-form").style.display = "block";
+        //         document.getElementById("table-form").style.display = "none";
+        //     } else if (tab == "table") {
+
+        //         tableTab.classList.add("active")
+        //         homeTab.classList.remove("active")
+        //         document.getElementById("api-form").style.display = "none";
+        //         document.getElementById("table-form").style.display = "block";
+        //     }
+        // }
         function submitForm(e) {
             e.preventDefault()
+            console.log('insi------')
             const formData = {
-                apiURL: $('input[name="apiURL"]').val(),
-                method: document.getElementById("methods")?.value,
-                body: $('textarea[name="body"]').val() || "{}",
-                header: $('textarea[name="header"]').val() || "{}",
-                statusCode: $('select[name="statusCode"]').val(),
-                time: $('input[name="time"]').val(),
-                email: $('input[name="email"]').val()
+                email: $('input[name="email"]').val(),
+                password: $('input[name="password"]').val()
             };
             $.ajax({
                 type: "POST",
-                url: "/api/createCronJob",
+                url: "/auth/login",
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function (response) {
                     if (response?.isSuccess) {
-                        const tableBody = document.querySelector('tbody');
+                        document.cookie = `token=${response?.token}; path=/`;
+                        document.cookie = `role=${response?.role || 'admin'}; path=/`;
+                        localStorage.setItem("token", response.token)
 
-                        // Create a new row
-                        const newRow = document.createElement('tr');
-
-
-                        newRow.innerHTML = `<td>${response?.data?.apiURL}</td>
-                        <td>${response?.data?.method}</td>
-                        <td>${response?.data?.time}</td>
-                        <td>${response?.data?.email}</td>
-                        <td>${response?.data?.statusCode}</td>
-                        <td>${response?.data?.isResolved}</td>`;
-
-                        // Append the row to the table body
-                        tableBody.appendChild(newRow);
-                        document.getElementById("myForm").reset();
-                        changeTab("table")
+                        // changeTab("api-form")
+                        window.location.href = '/home'
                         alert('Form submitted successfully!');
                     } else {
                         alert(response?.error + '. ' + response?.message);
@@ -71,74 +120,30 @@
             // document.getElementById("myForm").submit();
         }
 
-
-        function changeTab(tab) {
-            const tableTab = document.querySelector(".tableTab")
-            const homeTab = document.querySelector(".homeTab")
-            if (tab == "home") {
-                tableTab.classList.remove("active")
-                homeTab.classList.add("active")
-                document.getElementById("api-form").style.display = "block";
-                document.getElementById("table-form").style.display = "none";
-            } else if (tab == "table") {
-
-                tableTab.classList.add("active")
-                homeTab.classList.remove("active")
-                document.getElementById("api-form").style.display = "none";
-                document.getElementById("table-form").style.display = "block";
-            }
-        }
-    </script>        
+    </script>
 </head>
 
 <body>
     <div class="container-fluid d-flex justify-content-center align-middle">
-        <!-- <nav class="navbar navbar-expand-sm  
-            navbar-dark bg-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="#" style="color:white;">
-                    Status App
-                </a>
-
-                <div class=" navbar-default">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item cursor-pointer" style="cursor: pointer;">
-
-                            <div class="nav-link active  homeTab" id="home" onclick='changeTab("home")'>
-                                Home
-                            </div>
-                        </li>
-
-                        <li class="nav-item  cursor-pointer" style="cursor: pointer;">
-                            <div class="nav-link  tableTab" id="table" onclick='changeTab("table")'>
-                                List
-                            </div>
-                        </li>
-
-
-                    </ul>
-                </div>
-            </div>
-        </nav> -->
         <div class="contact-wrapper" id="login-form">
             <header class="login-cta pb-3">
-              <h2>Account Login</h2>
+                <h2>Account Login</h2>
             </header>
             <form>
-              <div class="form-row">
-                <input type="text" required>
-                <span>Username or Email</span>
-              </div>
-              <div class="form-row">
-                <input type="password" required>
-                <span>Password</span>
-              </div>
-              <div class="form-row"></div>
-              <div class="form-row">
-                <button type="submit">Login to your Account!</button>
-              </div>
+                <div class="form-row">
+                    <input type="text" name="email" required>
+                    <span>Username or Email</span>
+                </div>
+                <div class="form-row">
+                    <input type="password" name="password" required>
+                    <span>Password</span>
+                </div>
+                <div class="form-row"></div>
+                <div class="form-row">
+                    <button role="button" type="submit" onclick="submitForm(event)">Login to your Account!</button>
+                </div>
             </form>
-          </div>
+        </div>
         <!-- <div id="api-form">
             <form id="myForm" >
                 <div>
@@ -206,8 +211,8 @@
                 </div>
             </form>
 
-        </div>
-        <div id="table-form" style="display: none;">
+        </div> -->
+        <!-- <div id="table-form" style="display: none;">
             <%- include('table',{cronJob:cronJob}); -%>
 
         </div> -->

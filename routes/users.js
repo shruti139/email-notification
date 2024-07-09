@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const cron = require('node-cron');
-/* GET users listing. */
-router.get('/', function(req, res, next) {
- 
-  res.send('respond with a resource');
-});
+const { getUsers, deleteUserById, updateUserById, createUser } = require('../controller/user');
+const verifyToken = require('../bin/middlewear/auth');
+
+router.get('/getUsers', verifyToken, getUsers);
+router.put('/updateUser/:id', verifyToken, updateUserById);
+router.delete('/deleteUser/:id', verifyToken, deleteUserById);
+router.post('/createUser', verifyToken, createUser);
 
 module.exports = router;
