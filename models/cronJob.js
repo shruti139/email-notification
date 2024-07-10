@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const schedulesHistorySchema = new mongoose.Schema(
   {
-
+    userId: {
+      type: String,
+      trim: true,
+    },
     apiURL: {
       type: String,
       trim: true,
@@ -10,7 +13,7 @@ const schedulesHistorySchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    body:{
+    body: {
       type: String,
       trim: true,
     },

@@ -32,17 +32,17 @@
             $.ajax({
                 type: "POST",
                 url: "/api/createCronJob",
-                data:JSON.stringify(formData),
+                data: JSON.stringify(formData),
                 contentType: "application/json",
-                success: function(response) {
-                    if(response?.isSuccess){
+                success: function (response) {
+                    if (response?.isSuccess) {
                         alert('Form submitted successfully!');
-                    }else{
+                    } else {
                         alert(response?.error + '. ' + response?.message);
-                        
+
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     debugger
                     alert('Error: ' + xhr.responseText);
                 }
@@ -50,14 +50,14 @@
             // document.getElementById("myForm").submit();
         }
 
-       
+
     </script>
 </head>
 
 <body>
-   
-       
-     
+
+
+
 </body>
 
 </html>

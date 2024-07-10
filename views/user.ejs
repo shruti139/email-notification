@@ -12,23 +12,18 @@
         let userData;
         let token;
 
+        function getCookie(name) {
+            const cookieValue = document.cookie
+                .split('; ')
+                .find(row => row.startsWith(name))
+                ?.split('=')[1];
+            return cookieValue ? decodeURIComponent(cookieValue) : null;
+        }
         $(document).ready(function () {
-            function getCookie(name) {
-                const cookieValue = document.cookie
-                    .split('; ')
-                    .find(row => row.startsWith(name))
-                    ?.split('=')[1];
-                return cookieValue ? decodeURIComponent(cookieValue) : null;
-            }
             token = getCookie('token')
-
-            console.log('role :>> ', token);
-            let tokean = localStorage.getItem("token");
-            console.log('token :>> ', tokean);
-            // let role = localStorage.getItem('role');
-            // if (!token) {
-            //     window.location.href = "/";
-            // }
+            if (!token) {
+                window.location.href = "/";
+            }
 
             getUser();
 
@@ -38,20 +33,17 @@
 
             $('#confirmEditButton').on('click', function () {
                 editUser(userId);
+                $('input[name="email"]').val('');
+                $('input[name="userName"]').val('');
+                $('input[name="password"]').val('');
             });
 
             $('#confirmAddButton').on('click', function () {
                 createUser();
+                $('input[name="email"]').val('');
+                $('input[name="userName"]').val('');
+                $('input[name="password"]').val('');
             });
-
-
-            // $('#editModal').on('show.bs.modal', function () {
-            //     // Populate edit modal fields with user data
-            //     if (userData) {
-            //         $('#email').val(userData.email);
-            //         $('#role').val(userData.role);
-            //     }
-            // });
 
             const toastTrigger = document.getElementById('liveToastBtn')
             const toastLiveExample = document.getElementById('liveToast')
@@ -100,42 +92,51 @@
                                          </tr>`;
                         });
                         $('#user tbody').html(userHtml);
+                        $('#loadingSpinner').hide()
                     }
                 },
                 error: function (error) {
+                    if (error.status == 401) {
+                        window.location.href = "/";
+                        showToast('errorToast', 'UnAuthorize.Please Login to continue');
+                    }
                     console.error('Error fetching users:', error);
+                    $('#loadingSpinner').hide()
                     showToast('errorToast', 'Error fetching users: ' + error.responseJSON.message);
                 }
             });
         }
         function editUser(userId) {
-            const token = localStorage.getItem('token');
-            const editedEmail = $('#email').val();
-            const editedUserName = $('#userName').val();
+            const editedEmail = document.querySelector('input[name="email"]').value;
+            const editedUserName = document.querySelector('input[name="userName"]').value;
 
-            if (editedEmail) {
-                $.ajax({
-                    url: `/users/updateUser/${userId}`,
-                    method: 'PUT',
-                    contentType: 'application/json',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                    data: JSON.stringify({ email: editedEmail, userName: editedUserName }),
-                    success: function (response) {
-                        if (response.isSuccess) {
-                            getUser();
-                            showToast('successToast', response.message);
-                            $('#editModal').modal('hide');
-                        }
-                    },
-                    error: function (error) {
-                        console.error('Error updating user:', error);
-                        $('#editModal').modal('hide');
-                        showToast('errorToast', 'Error in Deleting user: ' + error.responseJSON.message);
-                    }
-                });
-            }
+            console.log('editedEmail :>> ', editedEmail);
+            console.log('editedUserName :>> ', editedUserName);
+            // if (editedEmail) {
+            //     $.ajax({
+            //         url: `/users/updateUser/${userId}`,
+            //         method: 'PUT',
+            //         contentType: 'application/json',
+            //         headers: {
+            //             'Authorization': `Bearer ${token}`
+            //         },
+            //         data: JSON.stringify({ email: editedEmail, userName: editedUserName }),
+            //         success: function (response) {
+            //             if (response.isSuccess) {
+            //                 $('#loadingSpinner').hide()
+            //                 showToast('successToast', response.message);
+            //                 getUser();
+            //                 $('#editModal').modal('hide');
+            //             }
+            //         },
+            //         error: function (error) {
+            //             $('#loadingSpinner').hide()
+            //             $('#editModal').modal('hide');
+            //             showToast('errorToast', 'Error in Deleting user: ' + error.responseJSON.message);
+            //             console.error('Error updating user:', error);
+            //         }
+            //     });
+            // }
         }
 
         function deleteUser(userId) {
@@ -143,8 +144,12 @@
             $.ajax({
                 url: `/users/deleteUser/${userId}`,
                 method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 success: function (response) {
                     if (response.isSuccess) {
+                        $('#loadingSpinner').hide()
                         showToast('successToast', response.message);
                         getUser()
                         $('#deleteModal').modal('hide');
@@ -152,6 +157,7 @@
                 },
                 error: function (error) {
                     console.error('Error fetching users:', error);
+                    $('#loadingSpinner').hide()
                     $('#deleteModal').modal('hide');
                     showToast('errorToast', 'Error in Deleting user: ' + error.responseJSON.message);
                 }
@@ -161,24 +167,31 @@
             const email = $('#email').val();
             const userName = $('#userName').val();
             const password = $('#password').val();
+            $('#loadingSpinner').show()
 
             $.ajax({
                 url: `/users/createUser`,
                 method: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 data: JSON.stringify({ email, userName, password }),
                 success: function (response) {
                     if (response.isSuccess) {
+                        $('#loadingSpinner').hide()
                         getUser();
                         showToast('successToast', response.message);
                         $('#addModal').modal('hide');
                     }
                 },
                 error: function (error) {
+                    $('#loadingSpinner').hide()
                     console.error('Error updating user:', error);
                     showToast('errorToast', 'Error in Creating user: ' + error.responseJSON.message);
                     $('#addModal').modal('hide');
                 }
+
             });
         }
 
@@ -193,11 +206,12 @@
 </head>
 
 <body>
-
+    <div class="loading" id="loadingSpinner" style="display: none;">
+        <span class="typing-animation">Loading...</span>
+    </div>
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="successToast" class="toast success-toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header d-flex justify-content-end">
-                <img src="..." class="rounded me-2" alt="...">
                 <strong class="me-auto">Success</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -206,9 +220,8 @@
             </div>
         </div>
 
-        <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="errorToast" class="toast error-toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header d-flex justify-content-end">
-                <img src="..." class="rounded me-2" alt="...">
                 <strong class="me-auto">Error</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>

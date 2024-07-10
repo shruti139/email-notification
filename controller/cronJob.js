@@ -2,22 +2,18 @@ const { default: axios } = require("axios");
 const cronJob = require("../models/cronJob");
 const cron = require('node-cron');
 const { sendEmailHelper } = require("../service/sendMail");
+const { validateCronJob } = require("../validation/cronJob");
 
 const getCronJobList = async (req, res) => {
 
   try {
-
-
-
     const cronJobs = await cronJob
       .find(filter)
       .sort({ updatedAt: -1 })
 
-
     return res.status(200).send({
       isSuccess: true,
       message: "Cron Job History listing successfully",
-
       data: cronJobs,
     });
   } catch (error) {
@@ -32,7 +28,8 @@ const createCronJob = async (req, res) => {
 
   try {
     let { apiURL, time } = req?.body;
-    console.log("createCronJob ~ req?.body:", req?.body)
+
+    validateCronJob(req, res)
 
     const schedule = await cronJob.findOne({
       apiURL, isResolved: false
@@ -42,7 +39,7 @@ const createCronJob = async (req, res) => {
         .status(203)
         .send({ message: "Cron job already exits!", isSuccess: false });
     }
-    
+
     const create = await cronJob(req?.body);
     create
       .save()
@@ -61,38 +58,40 @@ const createCronJob = async (req, res) => {
           isSuccess: false,
         });
       });
+
   } catch (error) {
-    return res.status(203).send({
-      error: error.message,
-      message: "Something went wrong, please try again!",
-      isSuccess: false,
-    });
+    console.log('error :>> ', error);
+    // return res.status(203).send({
+    //   error: error.message,
+    //   message: "Something went wrong, please try again!",
+    //   isSuccess: false,
+    // });
   }
 }
 
-const scheduleCronJob = async (schedule, cronJobId,cronRunning ) => {
-  
+const scheduleCronJob = async (schedule, cronJobId, cronRunning) => {
+
   try {
     let cronTime;
-let [hour, minute, second] = schedule?.time.split(":");
-if (hour > 0) {
-  cronTime = `${second} ${minute} */${hour} * * *`;
-} else if (hour == 0 && minute > 0) {
-  cronTime = `0 */${minute} * * * *`;
+    let [hour, minute, second] = schedule?.time.split(":");
+    if (hour > 0) {
+      cronTime = `${second} ${minute} */${hour} * * *`;
+    } else if (hour == 0 && minute > 0) {
+      cronTime = `0 */${minute} * * * *`;
 
-} else if (minute == 0 && hour == 0) {
-  cronTime = `*/${second} * * * * *`;
-}
+    } else if (minute == 0 && hour == 0) {
+      cronTime = `*/${second} * * * * *`;
+    }
     // cronTime = cronTime[1] + " " + cronTime[1] + " " + cronTime[0] + " " + "* * *";
     // cronTime =cronTime[1] + " " + cronTime[0] + " " + "* * *";
 
-     
+
 
     cron.schedule(cronTime, async () => {
-    
+
       if (schedule && !cronRunning[cronJobId]) {
         try {
-          cronRunning[cronJobId] =true
+          cronRunning[cronJobId] = true
           const config = {
             method: schedule?.method,
             url: schedule?.apiURL,
@@ -149,9 +148,9 @@ if (hour > 0) {
                     </td>
                 </tr>
             </table>`)
-            
+
             // setTimeout(() => {
-              cronRunning[cronJobId] =false
+            cronRunning[cronJobId] = false
             // }, 60000)
           } else {
             await cronJob.updateOne({ _id: cronJobId }, { $set: { isResolved: true } })
@@ -172,5 +171,5 @@ if (hour > 0) {
 
 
 module.exports = {
-  getCronJobList, createCronJob,scheduleCronJob
+  getCronJobList, createCronJob, scheduleCronJob
 }

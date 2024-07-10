@@ -35,7 +35,7 @@ app.get('/login', (req, res) => {
 
 
 app.get('/home', async (req, res) => {
-  let role = req.role;
+  let role = req.cookies.role;
   const cronJobs = await cronJob
     .find()
     .sort({ updatedAt: -1 })

@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 // Get all users
 const getUsers = async (req, res) => {
     try {
-        if (req.role != 'admin') {
+        if (req.user.role != 'admin') {
             return res.status(500).send({
                 error: "You Don't have permission for this operation",
                 message: "You Don't have permission for this operation",
@@ -34,7 +34,7 @@ const updateUserById = async (req, res) => {
         const { email, userName } = req.body;
         // const hashedPassword = await bcrypt.hash(password, 10);
 
-        if (req.role != 'admin') {
+        if (req.user.role != 'admin') {
             return res.status(500).send({
                 error: "You Don't have permission for this operation",
                 message: "You Don't have permission for this operation",
@@ -67,7 +67,7 @@ const updateUserById = async (req, res) => {
 const deleteUserById = async (req, res) => {
     try {
         const { id } = req.params;
-        if (req.role != 'admin') {
+        if (req.user.role != 'admin') {
             return res.status(500).send({
                 error: "You Don't have permission for this operation",
                 message: "You Don't have permission for this operation",
@@ -106,7 +106,7 @@ const createUser = async (req, res) => {
                 message: "Email, Password and Username are required"
             });
         }
-        if (req.role != 'admin') {
+        if (req.user.role != 'admin') {
             return res.status(500).send({
                 error: "You Don't have permission for this operation",
                 message: "You Don't have permission for this operation",
