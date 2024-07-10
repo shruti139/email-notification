@@ -11,14 +11,14 @@ router.post('/createCronJob', verifyToken, createCronJob);
 
 var cronRunning = {}
 
-// cron.schedule(`* * * * * *`, async() => {
-//     console.log('running a task every  seconds');
-//     const allCronJobs = await cronJob.find({isResolved:false})
-//     allCronJobs.forEach(async (cronJob) => {
-//         await  scheduleCronJob(cronJob,cronJob?._id,cronRunning)
+cron.schedule(`* * * * * *`, async () => {
+    console.log('running a task every  seconds');
+    const allCronJobs = await cronJob.find({ isResolved: false })
+    allCronJobs.forEach(async (cronJob) => {
+        await scheduleCronJob(cronJob, cronJob?._id, cronRunning)
 
-//     })
-// });
+    })
+});
 
 
 module.exports = router;

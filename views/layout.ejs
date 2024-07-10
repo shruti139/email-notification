@@ -56,10 +56,9 @@
                 contentType: "application/json",
                 success: function (response) {
                     $('#loadingSpinner').hide();
-                    console.log("submitForm ~ response:", response)
                     if (response?.isSuccess) {
+                        localStorage.setItem("token", response?.token);
                         document.cookie = `token=${response?.token}; path=/`;
-                        document.cookie = `userId=${response?.userId}; path=/`;
                         document.cookie = `role=${response?.role}; path=/`;
                         showToast('successToast', response.message);
                         setTimeout(() => {

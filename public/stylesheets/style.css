@@ -68,16 +68,17 @@ body {
     border-color: white;
   }
 }
-.error-toast {
-  background-color: #f66;
-  color: white;
-}
+
+.error-toast,
 .error-toast.toast-header {
   background-color: #f66;
+  opacity: 1;
+  color: white;
 }
-.success-toast {
-  background-color: rgba(83, 212, 100, 0.637);
-}
+
+.success-toast,
 .success-toast .toast-header {
   background-color: rgba(83, 212, 100, 0.637);
+  opacity: 1;
+  color: white;
 }

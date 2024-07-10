@@ -38,13 +38,12 @@
             document.getElementById("api-form").style.display = "block";
             const homeTab = document.querySelector(".homeTab")
             homeTab?.classList?.add("active")
-            usertoken = getCookie('token') || newtoken
+            usertoken = getCookie('token') || newtoken;
             if (!usertoken) {
                 window.location.href = '/'
             }
         });
         function changeTab(tab) {
-            console.log('tab :>> ', tab);
             const tableTab = document.querySelector(".tableTab")
             const homeTab = document.querySelector(".homeTab")
             const userTab = document.querySelector(".userTab")
@@ -171,7 +170,6 @@
         </div>
     </div>
 
-    <h1 class="welcome">Welcome to the Home Page</h1>
     <div class="pt-3 table-responsive">
         <nav class="navbar navbar-expand-sm navbar fixed-top">
             <div class="container">

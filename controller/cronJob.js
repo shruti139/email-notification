@@ -27,38 +27,40 @@ const getCronJobList = async (req, res) => {
 const createCronJob = async (req, res) => {
 
   try {
-    let { apiURL, time } = req?.body;
+    let { apiURL } = req?.body;
 
-    validateCronJob(req, res)
+    const validationError = validateCronJob(req, res);
+    if (!validationError) {
 
-    const schedule = await cronJob.findOne({
-      apiURL, isResolved: false
-    });
-    if (schedule) {
-      return res
-        .status(203)
-        .send({ message: "Cron job already exits!", isSuccess: false });
-    }
-
-    req.body.userId = req?.user?.userId
-    const create = await cronJob(req?.body);
-    create
-      .save()
-      .then(async (timer) => {
-        // scheduleCronJob(req?.body, timer._id)
-        return res.status(200).send({
-          message: "Schedule created successfully.",
-          data: timer,
-          isSuccess: true,
-        });
-      })
-      .catch((error) => {
-        return res.status(203).send({
-          error: error.message,
-          message: "Something went wrong, please try again!",
-          isSuccess: false,
-        });
+      const schedule = await cronJob.findOne({
+        apiURL, isResolved: false
       });
+      if (schedule) {
+        return res
+          .status(203)
+          .send({ message: "Cron job already exits!", isSuccess: false });
+      }
+
+      req.body.userId = req?.user?.userId
+      const create = await cronJob(req?.body);
+      create
+        .save()
+        .then(async (timer) => {
+          // scheduleCronJob(req?.body, timer._id)
+          return res.status(200).send({
+            message: "Schedule created successfully.",
+            data: timer,
+            isSuccess: true,
+          });
+        })
+        .catch((error) => {
+          return res.status(203).send({
+            error: error.message,
+            message: "Something went wrong, please try again!",
+            isSuccess: false,
+          });
+        });
+    }
 
   } catch (error) {
     return res.status(203).send({

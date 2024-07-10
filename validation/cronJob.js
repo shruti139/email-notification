@@ -10,7 +10,6 @@ const validateCronJob = async (req, res, next) => {
         statusCode: Joi.array().required(),
         time: Joi.string().required(),
         email: Joi.string().required(),
-
     })
 
     const { error } = Schema.validate(req.body, { abortEarly: false });
@@ -18,7 +17,7 @@ const validateCronJob = async (req, res, next) => {
         const errorMessages = error.details.map(detail => detail.message);
         return res.status(203).send({
             error: errorMessages.join(', '),
-            message: "Something went wrong, please try again!",
+            message: errorMessages.join(', '),
             isSuccess: false
         });
     }
