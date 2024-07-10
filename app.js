@@ -28,19 +28,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
-app.get('/login', (req, res) => {
-  res.render('login'); // Ensure this matches your ejs file name in the views folder
-});
-
-
-
-app.get('/home', async (req, res) => {
-  let role = req.cookies.role;
-  const cronJobs = await cronJob
-    .find()
-    .sort({ updatedAt: -1 })
-  res.render('home', { role, title: 'SMART Launch App', cronJob: cronJobs }); // Ensure this matches your ejs file name in the views folder
-});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

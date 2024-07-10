@@ -27,7 +27,6 @@
         }
 
         $(document).ready(function () {
-            $(".select2").select2();
             const toastTrigger = document.getElementById('liveToastBtn')
             const toastLiveExample = document.getElementById('liveToast')
             if (toastTrigger) {
@@ -131,78 +130,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div id="api-form">
-            <form id="myForm" >
-                <div>
-                    <h1 class="mt-2 pt-5 mb-4">SMART App</h1>
-                    <h2 class="mb-4">Authorization and Launch Context</h2>
 
-                </div>
-                <div class="my-2">
-                    <label for="FHIRServer" class="form-label">API URL</label>
-                    <input type="text" name="apiURL" class="form-control" id="FHIRServer" value="">
-                </div>
-                <div class="mb-2">
-                    <label for="methods" class="form-label">Method</label>
-                    <select class="select1 form-control " name="methods" id="methods">
-                        <option value="" selected disabled>Select</option>
-                        <option value="GET">GET</option>
-                        <option value="POST">POST</option>
-                        <option value="PUT">PUT</option>
-                        <option value="DELETE">DELETE</option>
-                        <option value="PATCH">PATCH</option>
-
-
-                    </select>
-                </div>
-                <div class="mb-2">
-                    <label for="access_token" class="form-label">Body</label>
-                    <textarea type="text" name="body" class="form-control" id="access_token" rows="4"></textarea>
-                </div>
-                <div class="mb-2">
-                    <label for="scopes" class="form-label">Header</label>
-                    <textarea type="text" name="header" class="form-control" id="id_token" rows="4"></textarea>
-                </div>
-                <div class="mb-2">
-                    <label for="FHIRServer" class="form-label">Status code</label>
-                    <div class="w-100">
-                        <select class="select2 form-control" name="statusCode" id="FHIRServer-code" multiple>
-                            <option value="200">200</option>
-                            <option value="201">201</option>
-                            <option value="400">400</option>
-                            <option value="500">500</option>
-                            <option value="203">203</option>
-                            <option value="403">403</option>
-                            <option value="504">504</option>
-
-                        </select>
-
-                    </div>
-                </div>
-                   
-                <div class="mb-2">
-                    <label for="patient" class="form-label">Time</label>
-                    <input type="time" class="form-control" name="time" id="patients"  step="2">
-                </div>
-                <div class="mb-5">
-                    <label for="patient" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" id="patient" value="">
-                </div>
-                <div class="pb-3 pt-3 fixed-bottom d-flex bg-white shadow-lg ">
-                    <div class="container">
-                        <button type="submit" class="btn btn-primary ml-2 col-sm-4" style="background-color: black;"
-                            href="https://launch.smarthealthit.org/?launch_url=" role="button"
-                            onclick="submitForm(event)">SAVE</button>
-
-                    </div>
-                </div>
-            </form>
-
-        </div> -->
-        <!-- <div id="table-form" style="display: none;">
-            <%- include('table',{cronJob:cronJob}); -%>
-
-        </div> -->
 
     </div>
 </body>
