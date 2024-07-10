@@ -61,12 +61,11 @@ const createCronJob = async (req, res) => {
       });
 
   } catch (error) {
-    console.log('error :>> ', error);
-    // return res.status(203).send({
-    //   error: error.message,
-    //   message: "Something went wrong, please try again!",
-    //   isSuccess: false,
-    // });
+    return res.status(203).send({
+      error: error.message,
+      message: "Something went wrong, please try again!",
+      isSuccess: false,
+    });
   }
 }
 

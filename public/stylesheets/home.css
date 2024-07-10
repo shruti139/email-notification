@@ -1,6 +1,4 @@
 body {
-  background-color: #efefef !important;
-  font-family: "Rajdhani", sans-serif;
   padding: 10px;
 }
 
@@ -13,7 +11,7 @@ body {
 }
 
 .navbar {
-  background-color: #7b5dfa;
+  background-color: black;
 }
 
 .navbar .nav-item {
@@ -42,15 +40,18 @@ tr {
   vertical-align: middle;
 }
 
-.add-button {
-  background-color: #7b5dfa;
+.add-button,
+.add-button:hover {
+  background-color: black;
   color: white;
+  cursor: pointer;
 }
 
 #myForm {
   background: white;
   padding: 25px;
   border-radius: 10px;
+  margin-bottom: 80px;
 }
 
 .select2-container--default

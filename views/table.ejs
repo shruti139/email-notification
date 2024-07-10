@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="mt-5 pt-5 table-responsive">
-        <table class="table table-striped">
-            <thead class="table-dark">
-              <tr>
-                <th scope="col">API URL</th>
-                <th scope="col">Method</th>
-                <th scope="col">Time</th>
-                <th scope="col">Email</th>
-                <th scope="col">Status Code</th>
-                <th scope="col">Resolved</th>
-              </tr>
-            </thead>
-            <tbody>
-                <% cronJob.map(d => { %>
-                    <tr>
-                        <td><%= d.apiURL %></td>
-                        <td><%= d.method %></td>
-                        <td><%= d.time %></td>
-                        <td><%= d.email %></td>
-                        <td><%= d.statusCode %></td>
-                        <td><%= d.isResolved %></td>
-               
-                    </tr>
-                    <% }) %>
-              
-            </tbody>
-          </table>
 
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="mt-5 pt-5 table-responsive">
+    <table class="table table-striped">
+      <thead class="">
+        <tr>
+          <th scope="col">API URL</th>
+          <th scope="col">Method</th>
+          <th scope="col">Time</th>
+          <th scope="col">Email</th>
+          <th scope="col">Status Code</th>
+          <th scope="col">Resolved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cronJob.map(d=> { %>
+          <tr>
+            <td>
+              <%= d.apiURL %>
+            </td>
+            <td>
+              <%= d.method %>
+            </td>
+            <td>
+              <%= d.time %>
+            </td>
+            <td>
+              <%= d.email %>
+            </td>
+            <td>
+              <%= d.statusCode %>
+            </td>
+            <td>
+              <%= d.isResolved %>
+            </td>
+
+          </tr>
+          <% }) %>
+
+      </tbody>
+    </table>
+
+  </div>
 </body>
+
 </html>

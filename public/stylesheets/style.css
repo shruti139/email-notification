@@ -1,10 +1,12 @@
 body {
-  align-items: center;
   background-color: #efefef !important;
+  font-family: "Rajdhani", sans-serif;
+}
+.login-form {
+  align-items: center;
+  justify-content: center;
   display: flex;
   height: 100vh;
-  justify-content: center;
-  font-family: "Rajdhani", sans-serif;
 }
 
 /* form css */
@@ -66,11 +68,16 @@ body {
     border-color: white;
   }
 }
-
 .error-toast {
-  background-color: red;
+  background-color: #f66;
   color: white;
 }
+.error-toast.toast-header {
+  background-color: #f66;
+}
 .success-toast {
-  background-color: #198754;
+  background-color: rgba(83, 212, 100, 0.637);
+}
+.success-toast .toast-header {
+  background-color: rgba(83, 212, 100, 0.637);
 }

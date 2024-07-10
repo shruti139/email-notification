@@ -79,8 +79,8 @@ tbody td {
 
 .edit-btn,
 .edit-btn:hover {
-  background-color: #d0c2ff;
-  color: black;
+  background-color: #737373;
+  color: white;
   border: none;
 }
 
@@ -89,17 +89,4 @@ tbody td {
   background-color: #dc35459e;
   border: none;
   color: white;
-}
-.error-toast {
-  background-color: #f66;
-  color: white;
-}
-.error-toast.toast-header {
-  background-color: #f66;
-}
-.success-toast {
-  background-color: rgba(83, 212, 100, 0.637);
-}
-.success-toast .toast-header {
-  background-color: rgba(83, 212, 100, 0.637);
 }
