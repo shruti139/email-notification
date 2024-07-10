@@ -58,6 +58,8 @@
                     $('#loadingSpinner').hide();
                     if (response?.isSuccess) {
                         localStorage.setItem("token", response?.token);
+                        localStorage.setItem("userName", response?.userName);
+
                         document.cookie = `token=${response?.token}; path=/`;
                         document.cookie = `role=${response?.role}; path=/`;
                         showToast('successToast', response.message);
