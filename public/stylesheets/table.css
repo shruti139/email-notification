@@ -56,19 +56,32 @@ tbody td {
   font-size: 14px;
 }
 
+@media screen and (max-width: 930px) {
+  table {
+    border: 1px solid transparent;
+    box-shadow: none;
+    padding: 10px 10px;
+  }
+
+  thead th {
+    line-height: 35px !important;
+    font-size: 15px;
+  }
+}
+
 @media screen and (max-width: 800px) {
   table {
     border: 1px solid transparent;
     box-shadow: none;
+    padding: 10px 10px;
   }
 
-  thead {
-    display: none;
+  thead th {
+    line-height: 35px !important;
+    font-size: 15px;
   }
 
-  thead tr {
-    border-bottom: 45px solid #f8f8f8;
-  }
+
 
   thead td:first-child {
     padding-left: 10px;

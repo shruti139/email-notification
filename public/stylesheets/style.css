@@ -2,6 +2,7 @@ body {
   background-color: #efefef !important;
   font-family: "Rajdhani", sans-serif;
 }
+
 .login-form {
   align-items: center;
   justify-content: center;
@@ -18,7 +19,7 @@ body {
   width: 25em;
 }
 
-.login-cta > h2 {
+.login-cta>h2 {
   color: #3e3f5e;
   font-size: 1.75rem;
   text-align: center;
@@ -54,16 +55,19 @@ body {
   from {
     width: 0;
   }
+
   to {
     width: 5em;
   }
 }
 
 @keyframes blink-caret {
+
   from,
   to {
     border-color: transparent;
   }
+
   50% {
     border-color: white;
   }
@@ -81,4 +85,9 @@ body {
   background-color: rgba(83, 212, 100, 0.637);
   opacity: 1;
   color: white;
+}
+
+
+h2 {
+  font-weight: 600 !important;
 }
