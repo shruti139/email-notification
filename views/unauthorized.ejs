@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Document</title>
+    <script>
+        $(document).ready(function () {
+            function getCookie(name) {
+                const cookieValue = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith(name))
+                    ?.split('=')[1];
+                return cookieValue ? decodeURIComponent(cookieValue) : null;
+            }
+            const newtoken = localStorage.getItem('token')
+
+
+            let usertoken = getCookie('token') || newtoken
+            document.cookie.split(";").forEach(function (c) {
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+            });
+            setTimeout(() => {
+                window.location.href = '/'
+
+            }, 200);
+        });
+    </script>
+</head>
+
+<body>
+    <div class="mt-5 pt-5 table-responsive">
+
+    </div>
+</body>
+
+</html>
