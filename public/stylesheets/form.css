@@ -1,6 +1,7 @@
 .form {
   margin: 2em 0;
 }
+
 .form-row {
   display: flex;
   margin: 0.75em 0;
@@ -24,18 +25,21 @@
 .toggle-password {
   position: absolute;
   height: 20px;
-  width: 20px;
-  right: 21px;
+  width: 40px;
+  z-index: 99;
+  right: 5px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  background-color: #7b5dfa;
+  /* background-color: #7b5dfa; */
   user-select: none;
 }
+
 .toggle-password svg {
   height: 20px;
   width: 20px;
 }
+
 .form-row input,
 .form-row button {
   border-radius: 0.5em;
@@ -50,13 +54,13 @@
   border: 0.075em solid #ddd;
 }
 
-.form-row input:valid + span {
+.form-row input:valid+span {
   top: 0;
   font-size: 0.9rem;
   left: 2%;
 }
 
-.form-row input:focus + span {
+.form-row input:focus+span {
   top: 0;
 }
 
@@ -88,10 +92,12 @@
 }
 
 .form-row button:focus {
-  border: 0.1em solid #574cc8; /* darken(#7b5dfa, 10) */
+  border: 0.1em solid #574cc8;
+  /* darken(#7b5dfa, 10) */
   outline: none;
 }
 
 .form-row button:hover {
-  background-color: #6a55fa; /* darken(#7b5dfa, 5) */
+  background-color: #6a55fa;
+  /* darken(#7b5dfa, 5) */
 }
