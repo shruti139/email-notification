@@ -12,6 +12,7 @@
         let userId;
         let userData;
         let token;
+        let role;
 
         function getCookie(name) {
             const cookieValue = document.cookie
@@ -22,6 +23,7 @@
         }
         $(document).ready(function () {
             token = getCookie('token')
+            role = getCookie('role')
             if (!token) {
                 window.location.href = "/";
             }
@@ -51,7 +53,6 @@
             if (toastTrigger) {
                 toastTrigger.addEventListener('click', () => {
                     const toast = new bootstrap.Toast(toastLiveExample)
-
                     toast.show()
                 })
             }
@@ -68,44 +69,52 @@
         }
 
         function getUser() {
-            $.ajax({
-                url: '/users/getUsers',
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                success: function (response) {
-                    if (response.isSuccess) {
-                        const users = response.users;
-                        let userHtml = '';
-                        userData = response.users;
-                        users.forEach(user => {
-                            userHtml += `<tr>
-                                            <td>${user?.userName || '-'}</td>
-                                            <td>${user.email}</td>
-                                            <td>${user.role}</td>
-                                            <td>
-                                                <div class=''>
-                                                    <button onclick="editUserData('${user._id}')" data-bs-toggle="modal" data-bs-target="#editModal" class='btn edit-btn'>Edit</button>
-                                                    <button onclick="deleteUserId('${user._id}')" data-bs-toggle="modal" data-bs-target="#deleteModal" class='btn delete-btn'>Delete</button>
-                                                </div>
-                                            </td>
-                                         </tr>`;
-                        });
-                        $('#user tbody').html(userHtml);
+            if (role == 'admin') {
+                $.ajax({
+                    url: '/users/getUsers',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            const users = response.users;
+                            let userHtml = '';
+                            userData = response.users;
+                            if (users.length == 0) {
+                                userHtml += `<tr>
+                                                    <td colspan="6">No record found</td>
+                                             </tr>`;
+                            } else {
+                                users.forEach(user => {
+                                    userHtml += `<tr>
+                                              <td>${user?.userName || '-'}</td>
+                                              <td>${user.email}</td>
+                                              <td>${user.role}</td>
+                                              <td>
+                                                  <div class=''>
+                                                      <button onclick="editUserData('${user._id}')" data-bs-toggle="modal" data-bs-target="#editModal" class='btn edit-btn'>Edit</button>
+                                                      <button onclick="deleteUserId('${user._id}')" data-bs-toggle="modal" data-bs-target="#deleteModal" class='btn delete-btn'>Delete</button>
+                                                  </div>
+                                              </td>
+                                           </tr>`;
+                                });
+                            }
+                            $('#user tbody').html(userHtml);
+                            $('#loadingSpinner').hide()
+                        }
+                    },
+                    error: function (error) {
+                        if (error.status == 401) {
+                            window.location.href = "/";
+                            showToast('errorToast', 'UnAuthorize.Please Login to continue');
+                        }
+                        console.error('Error fetching users:', error);
                         $('#loadingSpinner').hide()
+                        showToast('errorToast', 'Error fetching users: ' + error.responseJSON.message);
                     }
-                },
-                error: function (error) {
-                    if (error.status == 401) {
-                        window.location.href = "/";
-                        showToast('errorToast', 'UnAuthorize.Please Login to continue');
-                    }
-                    console.error('Error fetching users:', error);
-                    $('#loadingSpinner').hide()
-                    showToast('errorToast', 'Error fetching users: ' + error.responseJSON.message);
-                }
-            });
+                });
+            }
         }
         function editUser(userId) {
             const editedEmail = document.querySelector('input[name="email"]').value;
@@ -230,7 +239,7 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-end pb-3">
+    <div class="d-flex justify-content-end pb-3 mt-5">
         <button class="btn add-button" data-bs-toggle="modal" data-bs-target="#addModal">Add
             User</button>
     </div>

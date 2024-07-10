@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Listing Cron</title>
 </head>
 
 <body>
   <div class="mt-5 pt-5 table-responsive">
     <table class="table table-striped">
-      <thead class="">
+      <thead>
         <tr>
           <th scope="col">API URL</th>
           <th scope="col">Method</th>
@@ -21,33 +21,36 @@
         </tr>
       </thead>
       <tbody>
-        <% cronJob.map(d=> { %>
+        <% if (cronJob.length===0) { %>
           <tr>
-            <td>
-              <%= d.apiURL %>
-            </td>
-            <td>
-              <%= d.method %>
-            </td>
-            <td>
-              <%= d.time %>
-            </td>
-            <td>
-              <%= d.email %>
-            </td>
-            <td>
-              <%= d.statusCode %>
-            </td>
-            <td>
-              <%= d.isResolved %>
-            </td>
-
+            <td colspan="6">No record found</td>
           </tr>
-          <% }) %>
-
+          <% } else { %>
+            <% cronJob.map(d=> { %>
+              <tr>
+                <td>
+                  <%= d.apiURL %>
+                </td>
+                <td>
+                  <%= d.method %>
+                </td>
+                <td>
+                  <%= d.time %>
+                </td>
+                <td>
+                  <%= d.email %>
+                </td>
+                <td>
+                  <%= d.statusCode %>
+                </td>
+                <td>
+                  <%= d.isResolved %>
+                </td>
+              </tr>
+              <% }) %>
+                <% } %>
       </tbody>
     </table>
-
   </div>
 </body>
 
