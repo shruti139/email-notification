@@ -1,6 +1,6 @@
 var express = require('express');
 const cronJob = require('../models/cronJob');
-const verifyToken = require('../bin/middlewear/auth');
+const verifyToken = require('../middlewear/auth');
 var router = express.Router();
 
 /* GET home page. */
