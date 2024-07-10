@@ -56,12 +56,16 @@
                 contentType: "application/json",
                 success: function (response) {
                     $('#loadingSpinner').hide();
+                    console.log("submitForm ~ response:", response)
                     if (response?.isSuccess) {
                         document.cookie = `token=${response?.token}; path=/`;
                         document.cookie = `userId=${response?.userId}; path=/`;
                         document.cookie = `role=${response?.role}; path=/`;
                         showToast('successToast', response.message);
-                        window.location.href = '/home'
+                        setTimeout(() => {
+                            window.location.href = '/home'
+
+                        }, 1000);
                     } else {
                         showToast('errorToast', 'Error in Login' + response.message);
                     }
@@ -71,7 +75,7 @@
                     showToast('errorToast', 'Error in Login');
                 }
             });
-            document.getElementById("myForm").submit();
+            // document.getElementById("myForm").submit();
         }
         function showToast(toastId, message) {
             const toastElement = $('#' + toastId);

@@ -21,11 +21,9 @@
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Rajdhani:500,700&display=swap" rel="stylesheet">
 
-    <title>Document</title>
     <script>
         let data = {};
-        let token;
-        let userId;
+        let usertoken;
 
         $(document).ready(function () {
             function getCookie(name) {
@@ -40,9 +38,8 @@
             document.getElementById("api-form").style.display = "block";
             const homeTab = document.querySelector(".homeTab")
             homeTab?.classList?.add("active")
-            token = getCookie('token') || newtoken
-            userId = getCookie('userId')
-            if (!token) {
+            usertoken = getCookie('token') || newtoken
+            if (!usertoken) {
                 window.location.href = '/'
             }
         });
@@ -53,23 +50,23 @@
             const userTab = document.querySelector(".userTab")
 
             if (tab == "home") {
-                userTab.classList.remove("active")
-                tableTab.classList.remove("active")
+                userTab?.classList?.remove("active")
+                tableTab?.classList?.remove("active")
                 homeTab?.classList?.add("active")
                 document.getElementById("api-form").style.display = "block";
                 document.getElementById("table-form").style.display = "none";
                 document.getElementById("user-table").style.display = "none";
             } else if (tab == "table") {
-                tableTab.classList.add("active")
+                tableTab?.classList?.add("active")
                 homeTab?.classList?.remove("active")
-                userTab.classList.remove("active")
+                userTab?.classList?.remove("active")
                 document.getElementById("table-form").style.display = "block";
                 document.getElementById("api-form").style.display = "none";
                 document.getElementById("user-table").style.display = "none";
             } else {
-                userTab.classList.add("active")
+                userTab?.classList?.add("active")
                 homeTab?.classList?.remove("active")
-                tableTab.classList.remove("active")
+                tableTab?.classList?.remove("active")
                 document.getElementById("user-table").style.display = "block";
                 document.getElementById("api-form").style.display = "none";
                 document.getElementById("table-form").style.display = "none";
@@ -86,15 +83,14 @@
                 header: $('textarea[name="header"]').val() || "{}",
                 statusCode: $('select[name="statusCode"]').val(),
                 time: $('input[name="time"]').val(),
-                email: $('input[name="email"]').val(),
-                userId: userId
+                email: $('input[name="email"]').val()
             };
             $.ajax({
                 type: "POST",
                 url: "/api/createCronJob",
                 data: JSON.stringify(formData),
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${usertoken}`
                 },
                 contentType: "application/json",
                 success: function (response) {
@@ -276,8 +272,7 @@
                 <div class="pb-3 pt-3 fixed-bottom d-flex bg-white shadow-lg ">
                     <div class="container">
                         <button type="submit" class="btn btn-primary ml-2 col-sm-4" style="background-color: black;"
-                            href="https://launch.smarthealthit.org/?launch_url=" role="button"
-                            onclick="submitForm(event)">SAVE</button>
+                            role="button" onclick="submitForm(event)">SAVE</button>
 
                     </div>
                 </div>

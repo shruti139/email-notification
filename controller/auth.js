@@ -39,8 +39,9 @@ const login = async (req, res) => {
             isSuccess: true,
             message: "Login successful",
             token,
-            userId: user._id,
-            email: user.email
+            role: user?.role,
+            userId: user?._id,
+            email: user?.email
         });
     } catch (error) {
         return res.status(500).send({

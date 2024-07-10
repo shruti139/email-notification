@@ -40,9 +40,9 @@
 
             $('#confirmAddButton').on('click', function () {
                 createUser();
-                $('input[name="email"]').val('');
-                $('input[name="userName"]').val('');
-                $('input[name="password"]').val('');
+                $('input[name="addEmail"]').val('');
+                $('input[name="addUserName"]').val('');
+                $('input[name="addPassword"]').val('');
             });
 
             const toastTrigger = document.getElementById('liveToastBtn')
@@ -109,34 +109,33 @@
         function editUser(userId) {
             const editedEmail = document.querySelector('input[name="email"]').value;
             const editedUserName = document.querySelector('input[name="userName"]').value;
+            const editedUserNames = $('input[name="userName"]').val()
 
-            console.log('editedEmail :>> ', editedEmail);
-            console.log('editedUserName :>> ', editedUserName);
-            // if (editedEmail) {
-            //     $.ajax({
-            //         url: `/users/updateUser/${userId}`,
-            //         method: 'PUT',
-            //         contentType: 'application/json',
-            //         headers: {
-            //             'Authorization': `Bearer ${token}`
-            //         },
-            //         data: JSON.stringify({ email: editedEmail, userName: editedUserName }),
-            //         success: function (response) {
-            //             if (response.isSuccess) {
-            //                 $('#loadingSpinner').hide()
-            //                 showToast('successToast', response.message);
-            //                 getUser();
-            //                 $('#editModal').modal('hide');
-            //             }
-            //         },
-            //         error: function (error) {
-            //             $('#loadingSpinner').hide()
-            //             $('#editModal').modal('hide');
-            //             showToast('errorToast', 'Error in Deleting user: ' + error.responseJSON.message);
-            //             console.error('Error updating user:', error);
-            //         }
-            //     });
-            // }
+            if (editedEmail) {
+                $.ajax({
+                    url: `/users/updateUser/${userId}`,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    data: JSON.stringify({ email: editedEmail, userName: editedUserName }),
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            $('#loadingSpinner').hide()
+                            showToast('successToast', response.message);
+                            getUser();
+                            $('#editModal').modal('hide');
+                        }
+                    },
+                    error: function (error) {
+                        $('#loadingSpinner').hide()
+                        $('#editModal').modal('hide');
+                        showToast('errorToast', 'Error in Deleting user: ' + error.responseJSON.message);
+                        console.error('Error updating user:', error);
+                    }
+                });
+            }
         }
 
         function deleteUser(userId) {
@@ -164,9 +163,9 @@
             });
         }
         function createUser() {
-            const email = $('#email').val();
-            const userName = $('#userName').val();
-            const password = $('#password').val();
+            const email = $('#addEmail').val();
+            const userName = $('#addUserName').val();
+            const password = $('#addPassword').val();
             $('#loadingSpinner').show()
 
             $.ajax({
@@ -257,29 +256,32 @@
                     <button type="button" id="close-btn" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="contact-wrapper" id="edit-form">
-                        <form>
-                            <div class="form-row">
-                                <input type="text" name="userName" id="userName" required>
-                                <span>UserName</span>
-                            </div>
-                            <div class="form-row">
-                                <input type="text" id='email' name="email" required>
-                                <span>Email</span>
-                            </div>
-                            <div class="form-row">
-                                <input type="text" name="password" id="password" required>
-                                <span>Password</span>
-                            </div>
-                        </form>
+                <form id="editForm">
+                    <div class="modal-body">
+                        <div class="contact-wrapper" id="edit-form">
+                            <form>
+                                <div class="form-row">
+                                    <input type="text" name="addUserName" id="addUserName" required>
+                                    <span>UserName</span>
+                                </div>
+                                <div class="form-row">
+                                    <input type="text" id='addEmail' name="addEmail" required>
+                                    <span>Email</span>
+                                </div>
+                                <div class="form-row">
+                                    <input type="text" name="addPassword" id="addPassword" required>
+                                    <span>Password</span>
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-success" id="confirmAddButton">Yes</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-success" id="confirmAddButton">Yes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -295,6 +297,7 @@
                     <button type="button" id="close-btn" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body">
                     <div class="contact-wrapper" id="edit-form">
                         <form>

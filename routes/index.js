@@ -18,7 +18,7 @@ router.get('/home', verifyToken, async (req, res) => {
   let role = req.cookies.role;
   let where = {}
   if (role == 'user') {
-    where = { userId: req.user?.userId }
+    where = { userId: req?.user?.userId }
   }
   const cronJobs = await cronJob
     .find(where)

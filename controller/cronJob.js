@@ -40,6 +40,7 @@ const createCronJob = async (req, res) => {
         .send({ message: "Cron job already exits!", isSuccess: false });
     }
 
+    req.body.userId = req?.user?.userId
     const create = await cronJob(req?.body);
     create
       .save()
